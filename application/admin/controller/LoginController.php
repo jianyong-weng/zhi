@@ -19,9 +19,9 @@ class LoginController extends Controller {
      * 登入
      */
     public function index() {       
-
+        $p  = input('post.');
         if ($_POST['option'] == 'login' ) {
-            $p  = input('post.');
+            
             $username = input('post.username');
             $password = input('post.password');
             $error = array();
@@ -89,6 +89,8 @@ class LoginController extends Controller {
             $this->view->engine->layout(false);
             return $this->fetch('login');
         }
+        
+        $this->assign("feedback",$p);
     }
 
     /**
