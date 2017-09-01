@@ -20,7 +20,7 @@ class LoginController extends Controller {
      */
     public function index() {       
 
-        if ($_POST['dosubmit']) {
+        if ($_POST['option'] == 'login' ) {
             $p  = input('post.');
             $username = input('post.username');
             $password = input('post.password');

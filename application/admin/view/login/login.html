@@ -66,7 +66,7 @@
 
                                             <div class="space-6"></div>
 
-                                            <form action="" method="post" name="myform">
+                                            <form action="" method="post" name="loginform">
                                                 <fieldset>
                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
@@ -97,8 +97,9 @@
                                                             <input type="checkbox" name="islogin" class="ace" />
                                                             <span class="lbl">记住密码</span>
                                                         </label>
-                                                        <input type="hidden" name="dosubmit" value="1">
-                                                        <button onclick="myform.submit()" type="button" class="width-35 pull-right btn btn-sm btn-primary">
+                                                       
+                                                        <input type="hidden" name="option" value="login">
+                                                        <button onclick="loginform.submit()" type="button" class="width-35 pull-right btn btn-sm btn-primary">
                                                             <i class="ace-icon fa fa-key"></i>
                                                             <span class="bigger-110" >登陆</span>
                                                         </button>                                                        
@@ -160,17 +161,18 @@
                                                 Enter your email and to receive instructions
                                             </p>
 
-                                            <form>
+                                            <form action="#forgot-box" method="post" name="mailform">
                                                 <fieldset>
-                                                    <label class="block clearfix">
+                                                    <label class="block clearfix">                                                        
                                                         <span class="block input-icon input-icon-right">
                                                             <input type="email" class="form-control" placeholder="Email" />
                                                             <i class="ace-icon fa fa-envelope"></i>
                                                         </span>
                                                     </label>
 
+                                                    <input type="hidden" name="option"  value='mail' />
                                                     <div class="clearfix">
-                                                        <button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+                                                        <button type="button" onclick="mailform.submit()" class="width-35 pull-right btn btn-sm btn-danger">
                                                             <i class="ace-icon fa fa-lightbulb-o"></i>
                                                             <span class="bigger-110">Send Me!</span>
                                                         </button>
@@ -244,7 +246,7 @@
                                                             <i class="ace-icon fa fa-refresh"></i>
                                                             <span class="bigger-110">Reset</span>
                                                         </button>
-
+                                                        <input type="hidden" name="option"  value='register' />
                                                         <button type="button" class="width-65 pull-right btn btn-sm btn-success">
                                                             <span class="bigger-110">Register</span>
 
@@ -319,7 +321,7 @@
                     $('body').attr('class', $(this).attr('b_theme'));
                     $('#id-text2').attr('class', $(this).attr('t_theme'));
                     $('#id-company-text').attr('class', $(this).attr('c_theme'));
-                    
+
                     e.preventDefault();
                 });
                 // $('#btn-login-dark').on('click', function (e) {
