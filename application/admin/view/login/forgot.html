@@ -12,11 +12,11 @@
                     Enter your email and to receive instructions
                 </p>
 
-                <form action="" method="post" name="mailform">
+                <form action="/admin/login/forgot" method="post" name="mailform">
                     <fieldset>
-                        <label class="block clearfix">                                                        
+                        <label class="block clearfix">
                             <span class="block input-icon input-icon-right">
-                                <input type="email" class="form-control" placeholder="Email" />
+                                <input type="email" name="email" class="form-control" placeholder="Email" />
                                 <i class="ace-icon fa fa-envelope"></i>
                                 {if condition="($error.email == 1) OR ($error.email == 2) "}
                                     <i class="ace-icon fa fa-remove red error_tip"></i>

@@ -209,6 +209,20 @@ return [
         'list_rows' => 15,
     ],
     'encry_key' => 'weng',
+
+    //邮箱服务器参数
+    'email' => [
+        'EMAIL_FROM'=>'396342220@qq.com', // 邮箱地址
+        'EMAIL_ADDRESS'=>'396342220@qq.com', // 邮箱地址
+        'EMAIL_SMTP'=>'smtp.qq.com', // 邮箱SMTP服务器
+        'EMAIL_SECURE'=>'ssl',
+        'EMAIL_LOGINNAME'=>'396342220', // 邮箱登录帐号
+        'EMAIL_PASSWORD'=>'hsijnqvbzjclbjee', // 邮箱密码
+        'EMAIL_CHARSET'=>'UTF-8',//编码
+        'EMAIL_AUTH'=>true,//邮箱认证
+        'EMAIL_PORT'=>465,//true HTML格式 false TXT格式
+        'EMAIL_HTML'=>true,//true HTML格式 false TXT格式
+    ]
 ];
 
 
