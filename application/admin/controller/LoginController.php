@@ -65,7 +65,7 @@ class LoginController extends Controller {
         else
         {
             if (session('user_name')) {
-                return $this->fetch('您已登入', 'index/index');
+                return $this->fetch('index/index');
             }
 
             if (cookie('user_name')) {
@@ -76,7 +76,7 @@ class LoginController extends Controller {
                     session('user_name', $info['username']);
                     session('user_id', $info['id']);
                     model('Admin')->editInfo(1, $info['id']);
-                    return $this->fetch('登入成功', 'index/index');
+                    return $this->fetch('index/index');
                 }
             }
 
@@ -106,7 +106,7 @@ class LoginController extends Controller {
         session('user_id', null);
         cookie('user_name', null);
         cookie('user_id', null);
-        return $this->fetch('退出成功', 'login/index');
+        return $this->fetch('login/login');
     }
 
 }
