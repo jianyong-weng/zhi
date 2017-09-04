@@ -1,0 +1,53 @@
+</div><!-- /.position-relative -->
+
+                            <div class="navbar-fixed-top align-right">
+                                <br />
+                                &nbsp;
+                                <a class="theme" b_theme="login-layout" t_theme="white" c_theme="blue" id="btn-login-dark" href="#">Dark</a>
+                                &nbsp;
+                                <span class="blue">/</span>
+                                &nbsp;
+                                <a class="theme" b_theme="login-layout blur-login" t_theme="grey" c_theme="blue" id="btn-login-blur" href="#">Blur</a>
+                                &nbsp;
+                                <span class="blue">/</span>
+                                &nbsp;
+                                <a class="theme" b_theme="login-layout light-login" t_theme="white" c_theme="light-blue" id="btn-login-light" href="#">Light</a>
+                                &nbsp; &nbsp; &nbsp;
+                            </div>
+                        </div>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.main-content -->
+        </div><!-- /.main-container -->
+
+        <!-- basic scripts -->
+
+        <!--[if !IE]> -->
+        <script src="/static/ace1.4/assets/js/jquery-2.1.4.min.js"></script>
+
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+<script src="/static/ace1.4/assets/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+        <script type="text/javascript">
+            if ('ontouchstart' in document.documentElement)
+                document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        </script>
+
+        <!-- inline scripts related to this page -->
+        <script type="text/javascript">
+
+            //you don't need this, just used for changing background
+            jQuery(function ($) {
+                $('.theme').on('click', function (e) {
+                    $('body').attr('class', $(this).attr('b_theme'));
+                    $('#id-text2').attr('class', $(this).attr('t_theme'));
+                    $('#id-company-text').attr('class', $(this).attr('c_theme'));
+
+                    e.preventDefault();
+                });
+            });
+        </script>
+    </body>
+</html>
