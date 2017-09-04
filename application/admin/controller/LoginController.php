@@ -98,14 +98,13 @@ class LoginController extends Controller {
     public function forgot(){  
 
         $email = input('post.email');
-        if($_POST && validate_email($email)){
-            $array   = array(time(),'newtp5',$email);
-            $key     = base64_encode(sort($array));
+        if($_POST && validate_email($email)){            
+            $key     = md5(time().'newtp5'.$email);var_dump($key);
             $theme   = 'NEW_TP5找回密码';
-            $content = '找回密码请点击<a href="http://newtp5/admin/login/reset?email=$email&key=$key">此链接</a>,本链接半小时内点击有效。';
+            $content = "找回密码<a href='http://newtp5/admin/login/reset?email=".$email."&key=".$key."'>请点击此链接</a>,本链接半小时内点击有效。";
             $result  = sendMail($email,$theme,$content);dump($result);
         }else{
-            echo "error";
+            
         }
         
         
