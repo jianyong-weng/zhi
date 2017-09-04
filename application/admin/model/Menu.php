@@ -110,12 +110,13 @@ class Menu extends Model {
     public function getMyMenu($user_id, $display = null) {
         $where = array();
         if ($user_id != 1) {
-            $res = db('admin_group_access')
+            $res = db('role_admin')
                     ->alias('t1')
                     ->field('t2.rules')
-                    ->join(config('database.prefix').'admin_group t2', 't1.group_id=t2.id', 'left')
-                    ->where(['t1.uid' => $user_id])
+                    ->join(config('database.prefix').'role t2', 't1.role_id=t2.id', 'left')
+                    ->where(['t1.admin_id' => $user_id])                    
                     ->select();
+           
             if (!$res) {
                 return false;
             }
@@ -134,7 +135,7 @@ class Menu extends Model {
         }
 
         $res = db('menu')->where($where)->order('listorder asc')->select();
-
+        
         return $res;
     }
 

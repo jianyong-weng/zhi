@@ -34,12 +34,12 @@ class Admin extends \think\Model {
      */
     public function getUserGroups($uid) {
 
-        $res = db('admin_group_access')->field('group_id')->where('uid', $uid)->select();
+        $res = db('role_admin')->field('role_id')->where('admin_id', $uid)->select();
 
         $userGroups = '';
         if ($res) {
             foreach ($res as $k => $v) {
-                $userGroups .= $v['group_id'] . ',';
+                $userGroups .= $v['role_id'] . ',';
             }
             return trim($userGroups, ',');
         } else {

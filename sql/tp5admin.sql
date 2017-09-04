@@ -23,6 +23,9 @@
 # Dump of table t_admin
 # ------------------------------------------------------------
 
+
+
+
 DROP TABLE IF EXISTS `t_admin`;
 
 CREATE TABLE `t_admin` (
@@ -40,7 +43,7 @@ CREATE TABLE `t_admin` (
   `status`      tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否有效(1:有效,2:无效)',  
   `updatetime`  int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `username` (`username`),
+  KEY `username` (`username`),  
   KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台系统管理员表';
 
@@ -49,7 +52,7 @@ LOCK TABLES `t_admin` WRITE;
 
 INSERT INTO `t_admin` (`id`, `username`, `password`, `encrypt`, `lastloginip`, `lastlogintime`, `email`, `mobile`, `realname`, `openid`, `status`, `updatetime`)
 VALUES
-  (1,'admin','21232f297a57a5a743894a0e4a801fc3','',2130706433,1479969414,'5552123@qq.com','18888873646','阿杜','',1,1477623198),
+  (1,'admin','21232f297a57a5a743894a0e4a801fc3','',2130706433,1479969414,'5552123@qq.com','18259106776','阿杜','',1,1477623198),
   (2,'zhenxun','c2785bf6585103658d34413683ac36f8','',2130706433,1476067533,'','18888873646','','',1,1477624790),
   (3,'zhangsan','01d7f40760960e7bd9443513f22ab9af','',0,0,'','','','',1,1477625400),
   (4,'test','098f6bcd4621d373cade4e832627b4f6','',2130706433,1495012830,'','','小演','',1,1479969550);
@@ -58,59 +61,60 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table t_admin_group
+# Dump of table t_role
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `t_admin_group`;
+DROP TABLE IF EXISTS `t_role`;
 
-CREATE TABLE `t_admin_group` (
+CREATE TABLE `t_role` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` text,
   `rules` varchar(500) NOT NULL DEFAULT '' COMMENT '用户组拥有的规则id，多个规则 , 隔开',
   `listorder` smallint(5) unsigned NOT NULL DEFAULT '0',
   `updatetime` int(11) DEFAULT NULL,
+  `is_del` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否有效(1:有效,2:无效)' ,
   PRIMARY KEY (`id`),
   KEY `listorder` (`listorder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台角色表';
 
-LOCK TABLES `t_admin_group` WRITE;
-/*!40000 ALTER TABLE `t_admin_group` DISABLE KEYS */;
+LOCK TABLES `t_role` WRITE;
+/*!40000 ALTER TABLE `t_role` DISABLE KEYS */;
 
-INSERT INTO `t_admin_group` (`id`, `name`, `description`, `rules`, `listorder`, `updatetime`)
+INSERT INTO `t_role` (`id`, `name`, `description`, `rules`, `listorder`, `updatetime`)
 VALUES
   (1,'普通管理员','密码加密只是MD5','',0,1477622552),
   (2,'工作人员','仅拥有日志管理权限','18,23,27',0,1476067479),
   (3,'后台演示','只能看，不能增删改','31,1,2,3,7,8,23,18,12,13,27',0,1479969527);
 
-/*!40000 ALTER TABLE `t_admin_group` ENABLE KEYS */;
+/*!40000 ALTER TABLE `t_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table t_admin_group_access
+# Dump of table t_role_admin
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `t_admin_group_access`;
+DROP TABLE IF EXISTS `t_role_admin`;
 
-CREATE TABLE `t_admin_group_access` (
-  `uid` int(10) unsigned NOT NULL COMMENT '用户id',
-  `group_id` mediumint(8) unsigned NOT NULL COMMENT '用户组id',
-  UNIQUE KEY `uid_group_id` (`uid`,`group_id`),
-  KEY `uid` (`uid`),
-  KEY `group_id` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `t_role_admin` (
+  `admin_id` int(10) unsigned NOT NULL COMMENT '用户id',
+  `role_id` mediumint(8) unsigned NOT NULL COMMENT '用户组id', 
+  UNIQUE KEY `admin_role_id` (`admin_id`,`role_id`),
+  KEY `admin_id` (`admin_id`),
+  KEY `role_id` (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色关联表' ;
 
-LOCK TABLES `t_admin_group_access` WRITE;
-/*!40000 ALTER TABLE `t_admin_group_access` DISABLE KEYS */;
+LOCK TABLES `t_role_admin` WRITE;
+/*!40000 ALTER TABLE `t_role_admin` DISABLE KEYS */;
 
-INSERT INTO `t_admin_group_access` (`uid`, `group_id`)
+INSERT INTO `t_role_admin` (`admin_id`, `role_id`)
 VALUES
   (2,1),
   (3,1),
   (3,2),
   (4,3);
 
-/*!40000 ALTER TABLE `t_admin_group_access` ENABLE KEYS */;
+/*!40000 ALTER TABLE `t_role_admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -124,13 +128,14 @@ CREATE TABLE `t_admin_log` (
   `m` varchar(15) NOT NULL,
   `c` varchar(20) NOT NULL,
   `a` varchar(20) NOT NULL,
-  `querystring` varchar(255) NOT NULL,
-  `userid` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `username` varchar(20) NOT NULL,
-  `ip` int(10) NOT NULL,
+  `querystring` varchar(255) NOT NULL DEFAULT '' COMMENT '查询值',
+  `userid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '操作者ID',
+  `username` varchar(20) NOT NULL DEFAULT '' COMMENT '查询值',
+  `ip` int(10) NOT NULL COMMENT '操作者IP地址',
+  `remark` VARCHAR(300) NOT NULL DEFAULT '' COMMENT '操作说明',
   `time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT='操作记录表' ;
 
 LOCK TABLES `t_admin_log` WRITE;
 /*!40000 ALTER TABLE `t_admin_log` DISABLE KEYS */;
@@ -193,7 +198,7 @@ CREATE TABLE `t_config` (
   UNIQUE KEY `uk_name` (`name`),
   KEY `type` (`type`),
   KEY `group` (`group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置表' ;
 
 
 
@@ -204,11 +209,12 @@ DROP TABLE IF EXISTS `t_menu`;
 
 CREATE TABLE `t_menu` (
   `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(40) NOT NULL DEFAULT '',
-  `parentid` smallint(6) DEFAULT '0',
-  `icon` varchar(20) NOT NULL DEFAULT '',
-  `c` varchar(20) DEFAULT NULL,
-  `a` varchar(20) DEFAULT NULL,
+  `name` char(40) NOT NULL DEFAULT '' COMMENT '菜单名称',
+  `parentid` smallint(6) DEFAULT '0' COMMENT '上级菜单ID',
+  `icon` varchar(20) NOT NULL DEFAULT '' COMMENT '菜单图标' ,
+  `m` VARCHAR(20) DEFAULT NULL COMMENT '菜单所在模块' ,
+  `c` varchar(20) DEFAULT NULL COMMENT '控制器',
+  `a` varchar(20) DEFAULT NULL COMMENT '方法',
   `data` varchar(50) NOT NULL DEFAULT '',
   `tip` varchar(255) NOT NULL DEFAULT '' COMMENT '提示',
   `group` varchar(50) DEFAULT '' COMMENT '分组',
@@ -218,7 +224,7 @@ CREATE TABLE `t_menu` (
   PRIMARY KEY (`id`),
   KEY `listorder` (`listorder`),
   KEY `parentid` (`parentid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台菜单表' ;;
 
 LOCK TABLES `t_menu` WRITE;
 /*!40000 ALTER TABLE `t_menu` DISABLE KEYS */;

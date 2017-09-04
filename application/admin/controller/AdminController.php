@@ -17,13 +17,13 @@ class AdminController extends CommonController {
     public function index() {
         
         $where = array();
-        if ($group_id = input('group_id')) {
-            $where['t2.group_id'] = $group_id;
+        if ($role_id = input('role_id')) {
+            $where['t2.role_id'] = $role_id;
             
         }
         $lists = db('admin')->alias('t1')->field('t1.*')
                 ->where($where)
-                ->join(config('database.prefix').'admin_group_access t2', 't1.id=t2.uid', 'left')
+                ->join(config('database.prefix').'role_admin t2', 't1.id=t2.admin_id', 'left')
                 ->group('t1.id')
                 ->order('t1.id desc')
                 ->select();
@@ -33,7 +33,7 @@ class AdminController extends CommonController {
             $lists[$k]['groups'] = '';
             $groups = Loader::model('Admin')->getUserGroups($v['id']);
             if ($groups) {
-                $tmp = db('admin_group')->field('name')->where('id', 'in', $groups)->select();
+                $tmp = db('role')->field('name')->where('id', 'in', $groups)->select();
 
                 foreach ($tmp as $vv) {
                     $lists[$k]['groups'] .= $vv['name'] . ',';
@@ -60,7 +60,7 @@ class AdminController extends CommonController {
         }
 
         //所有组信息
-        $groups = model('AdminGroup')->getGroups();
+        $groups = model('Role')->getGroups();
 
         $this->assign('groups', $groups);
         return $this->fetch();
@@ -88,9 +88,9 @@ class AdminController extends CommonController {
 
         if ($res) {
             if (isset($data['groups'])) {
-                $uid = model('Admin')->id;
+                $admin_id = model('Admin')->id;
                 foreach ($data['groups'] as $v) {
-                    db('admin_group_access')->insert(['uid' => $uid, 'group_id' => $v]);
+                    db('role')->insert(['admin_id' => $admin_id, 'role_id' => $v]);
                 }
             }
             $this->success('操作成功', url('index'));
@@ -105,11 +105,11 @@ class AdminController extends CommonController {
 
     public function edit() {
         $data = input();
-        db('admin_group_access')->where(['uid' => $data['id']])->delete();
+        db('role_id')->where(['admin_id' => $data['id']])->delete();
 
         if (isset($data['groups'])) {
             foreach ($data['groups'] as $v) {
-                db('admin_group_access')->insert(['uid' => $data['id'], 'group_id' => $v]);
+                db('role_id')->insert(['admin_id' => $data['id'], 'role_id' => $v]);
             }
         }
 
@@ -140,7 +140,7 @@ class AdminController extends CommonController {
         $id = input('id');
         $res = db('admin')->where(['id' => $id])->delete();
         if ($res) {
-            db('admin_group_access')->where(['uid' => $id])->delete();
+            db('role_id')->where(['admin_id' => $id])->delete();
             $this->success('操作成功', url('index'));
         } else {
             $this->error('操作失败');
