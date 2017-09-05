@@ -123,7 +123,7 @@ class AdminController extends CommonController {
             $data['password'] = md5($data['password']);
         }
 
-        $res = Loader::model('Admin')->editInfo(2, $data['id'], $data);
+        $res = Loader::model('Admin')->editInfo(2, array('id' =>$data['id']), $data);
 
         if ($res) {
             $this->success('操作成功');

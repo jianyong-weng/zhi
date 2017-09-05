@@ -1,0 +1,60 @@
+{include file="login/header"}
+    <div id="reset-box" class="reset-box visible widget-box no-border">
+        <div class="widget-body">
+            <div class="widget-main">
+                <h4 class="header red lighter bigger">
+                    <i class="ace-icon fa fa-key"></i>
+                    Reset Password
+                </h4>
+
+                <div class="space-6"></div>
+                <p>
+                    Enter Password And Reset Password
+                </p>
+
+                <form action="/admin/login/reset" method="post" name="">
+                    <fieldset>
+                        <label class="block clearfix">
+                            <span class="block input-icon input-icon-right">
+                                <input type="password" name="password" class="form-control" placeholder="Enter 8-16 bit password" />
+                                <i class="ace-icon fa fa-lock"></i>
+                                {if condition="$error.password neq ''"}
+                                    <i class="ace-icon fa fa-remove red error_tip"></i>
+                                {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
+                                {/if}
+                            </span>
+                        </label>
+
+                         <label class="block clearfix">
+                            <span class="block input-icon input-icon-right">
+                                <input type="password" name="repassword" class="form-control" placeholder="Confirm Password" />
+                                <i class="ace-icon fa fa-retweet"></i>
+                                {if condition="$error.repassword neq ''"}
+                                    <i class="ace-icon fa fa-remove red error_tip"></i>
+                                {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
+                                {/if}
+                            </span>
+                        </label>
+                        
+                        <input type="hidden" name="email" value="{$feedback.email|default=''}">
+                        <input type="hidden" name="key" value="{$feedback.key|default=''}">
+                        <div class="clearfix">
+                            <button type="button" onclick="form.submit()" class="width-35 pull-right btn btn-sm btn-danger">
+                                <i class="ace-icon fa fa-lightbulb-o"></i>
+                                <span class="bigger-110">Change !</span>
+                            </button>
+                        </div>
+
+                        <label class="block clearfix">
+                            <span class="block red">
+                                {if condition="$message neq '' "}{$message}{/if}
+                            </span>
+                        </label>
+                       
+                    </fieldset>
+                </form>
+            </div><!-- /.widget-main -->
+           
+        </div><!-- /.widget-body -->
+    </div><!-- /.forgot-box -->                                
+{include file="login/footer"}   

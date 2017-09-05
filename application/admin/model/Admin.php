@@ -49,11 +49,11 @@ class Admin extends \think\Model {
 
     /**
      * 登陆更新
-     * @param int $type 1:登陆更新,2:信息更新
-     * @param int $id id
-     * @param array $data 更新的数据
+     * @param int   $type   1:登陆更新,2:信息更新
+     * @param array $where  查找条件
+     * @param array $data   更新的数据
      */
-    public function editInfo($type, $id, $data = array()) {
+    public function editInfo($type, $where, $data = array()) {
         
         if ($type == 1) {
             $data['lastlogintime'] = time();
@@ -61,9 +61,27 @@ class Admin extends \think\Model {
         } elseif ($type == 2) {
             $data['updatetime'] = time();
         }
-        $res = $this->allowField(true)->save($data, ['id' => $id]);
-
+        $res = $this->allowField(true)->save($data,$where);        
+        
         return $res;
     }
 
+    /**
+     * 查找用户
+     * @param  array $where     搜索条件
+     * @return int   $res       更新的数据
+     */
+    public function searchAdmin($where , $field = '*' ,$status = 1){
+
+        $res = $this->field($field)
+                ->where($where)
+                ->where("status",$status)
+                ->find();
+
+        if ($res) {
+            $res = $res->data;
+        }
+
+        return $res;
+    }
 }

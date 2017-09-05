@@ -18,7 +18,7 @@
                             <span class="block input-icon input-icon-right">
                                 <input type="email" name="email" class="form-control" placeholder="Email" />
                                 <i class="ace-icon fa fa-envelope"></i>
-                                {if condition="($error.email == 1) OR ($error.email == 2) "}
+                                {if condition="$error.email neq ''"}
                                     <i class="ace-icon fa fa-remove red error_tip"></i>
                                 {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
                                 {/if}
@@ -31,6 +31,12 @@
                                 <span class="bigger-110">Send Me!</span>
                             </button>
                         </div>
+
+                        <label class="block clearfix">
+                            <span class="block red">
+                                {if condition="$message neq ''"}{$message}{/if}
+                            </span>
+                        </label>
                     </fieldset>
                 </form>
             </div><!-- /.widget-main -->

@@ -254,8 +254,22 @@ COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-
-
+-- ----------------------------
+--  Table structure for `t_mail_log`
+-- ----------------------------
+CREATE TABLE `t_mail_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT ,
+  `email` varchar(50) NOT NULL DEFAULT '' COMMENT '邮件地址',
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '邮件主题',
+  `content` text NOT NULL COMMENT '邮件内容',
+  `key` char(32) NOT NULL DEFAULT '' COMMENT '邮件验证码',
+  `time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发送时间',
+  `updatetime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '邮件类型：1忘记密码', 
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态:1未验证，2已验证',
+  PRIMARY KEY (`id`),  
+  KEY `key` (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='邮件发送记录' ;
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

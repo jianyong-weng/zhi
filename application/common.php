@@ -321,10 +321,11 @@ function get_client_ip ()
  * @param   string  $to         收件人邮箱
  * @param   string  $title      邮件主题
  * @param   string  $content    邮件内容
+ * @param   int     $type       邮件类型
  * @return  boolean $result     发送结果
  */
    
-function sendMail($to,$title,$content){
+function sendMail($to,$title,$content,$type = 1){
 
     //引入PHPMailer的核心文件 使用require_once包含避免出现PHPMailer类重复定义的警告
     //require_once("./class.phpmailer.php");  extend/phpmailer/Phpmailer.php
@@ -395,7 +396,7 @@ function sendMail($to,$title,$content){
     $result = $mail->send();
 
     //简单的判断与提示信息
-    if($result) {
+    if($result) {       
         return true;
     }else{
         return false;
@@ -420,4 +421,24 @@ function validate_email($email = ''){
         return false;
     }
 
+}
+
+/**
+ * 统计中文字符串长度
+ * @param $str 要计算长度的字符串
+ * @param $type 计算长度类型，0(默认)表示一个中文算一个字符，1表示一个中文算两个字符
+ *
+ */
+function abslength($str)
+{
+    if(empty($str)){
+        return 0;
+    }
+    if(function_exists('mb_strlen')){
+        return mb_strlen($str,'utf-8');
+    }
+    else {
+        preg_match_all("/./u", $str, $ar);
+        return count($ar[0]);
+    }
 }
