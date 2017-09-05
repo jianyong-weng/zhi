@@ -143,7 +143,7 @@ class LoginController extends Controller {
      * 重置密码
      */
     public function reset(){
-        $p = input('request.');dump($p);
+        $p = input('request.');
         $error = array();
 
         if($_POST && $_POST['key']){
@@ -194,12 +194,13 @@ class LoginController extends Controller {
                 }
                 else{
                     $message = '找不到该条发送记录。';
-                }
-                $this->assign("message",$message);
+                }                
             }            
             $this->assign("error",$error);
+        }else{
+            $message = '链接地址错误。';
         }
-        
+        $this->assign("message",$message);
         $this->assign("feedback",$p);
         $this->view->engine->layout(false);        
         return $this->fetch('reset');
