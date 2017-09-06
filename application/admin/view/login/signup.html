@@ -14,31 +14,20 @@
                 <fieldset>
                     <label class="block clearfix">
                         <span class="block input-icon input-icon-right">
-                            <input type="text" name="mobile" class="form-control" placeholder="Mobile" />
+                            <input type="text" name="mobile" class="form-control" value="{$feedback.mobile|default=''}" placeholder="Mobile" />
                             <i class="ace-icon fa fa-phone"></i>
-                            {if condition="($error.mobile eq '') "}
+                            {if condition="($error.mobile neq '') "}
                                 <i class="ace-icon fa fa-remove red error_tip"></i>
                             {else /}
                             {/if}
                         </span>
-                    </label>
+                    </label>                                  
 
                     <label class="block clearfix">
                         <span class="block input-icon input-icon-right">
-                            <input type="text" name="name" class="form-control" placeholder="Username" />
-                            <i class="ace-icon fa fa-user"></i>
-                            {if condition="($error.name eq '') "}
-                                <i class="ace-icon fa fa-remove red error_tip"></i>
-                            {else /}
-                            {/if}
-                        </span>
-                    </label>                    
-
-                    <label class="block clearfix">
-                        <span class="block input-icon input-icon-right">
-                            <input type="email" name="email" class="form-control" placeholder="Email" />
+                            <input type="email" name="email" value="{$feedback.email|default=''}" class="form-control" placeholder="Email" />
                             <i class="ace-icon fa fa-envelope"></i>
-                            {if condition="($error.email eq '') "}
+                            {if condition="($error.email neq '') "}
                                 <i class="ace-icon fa fa-remove red error_tip"></i>
                             {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
                             {/if}
@@ -49,7 +38,7 @@
                         <span class="block input-icon input-icon-right">
                             <input type="password" name="password" class="form-control" placeholder="Password" />
                             <i class="ace-icon fa fa-lock"></i>
-                            {if condition="($error.password eq '') "}
+                            {if condition="($error.password neq '') "}
                                 <i class="ace-icon fa fa-remove red error_tip"></i>
                             {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
                             {/if}
@@ -60,21 +49,28 @@
                         <span class="block input-icon input-icon-right">
                             <input type="password" name="repassword" class="form-control" placeholder="Repeat password" />
                             <i class="ace-icon fa fa-retweet"></i>
-                            {if condition="($error.repassword eq '') "}
+                            {if condition="($error.repassword neq '') "}
                                 <i class="ace-icon fa fa-remove red error_tip"></i>
                             {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
                             {/if}
                         </span>
-                    </label>
+                    </label>                    
 
                     <label class="block">
-                        <input type="checkbox" class="ace" />
+                        <input type="checkbox" name='isagree' class="ace" />
                         <span class="lbl">
                             I accept the
                             <a href="#">User Agreement</a>
                         </span>
                     </label>
-
+                    
+                    {if $message}
+                    <label class="block">                        
+                        <span class="lbl">
+                            {$message}    
+                        </span>
+                    </label>
+                    {/if}
                     <div class="space-24"></div>
 
                     <div class="clearfix">

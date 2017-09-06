@@ -84,4 +84,20 @@ class Admin extends \think\Model {
 
         return $res;
     }
+
+    /**
+     * 新增用户
+     * @param  array $data      搜索条件
+     * @return int   $res       更新的数据
+     */
+    public function createAdmin($data = array()){
+        
+        $data['encrypt']    = randStr(6,'SMALLALL');
+        $data['reg_time']   = time();
+        $data['password']   = md5($data['password'].$data['encrypt']);
+
+        $res = $this->allowField(true)->save($data);        
+        
+        return $res; 
+    }
 }

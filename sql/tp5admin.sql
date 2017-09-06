@@ -36,7 +36,7 @@ CREATE TABLE `t_admin` (
   `lastloginip` int(10) NOT NULL DEFAULT '0' COMMENT '上次登录IP地址',
   `lastlogintime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上次登录时间',
   `email`       varchar(40) NOT NULL DEFAULT '' COMMENT '邮件',
-  `mobile`      varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
+  `mobile`      varchar(14) NOT NULL DEFAULT '' COMMENT '手机号',
   `realname`    varchar(50) NOT NULL DEFAULT '' COMMENT '真实姓名',
   `openid`      varchar(255) NOT NULL DEFAULT '' COMMENT '微信openid',
   `qq`          varchar(20) NOT NULL DEFAULT '' COMMENT 'QQ账号',
@@ -55,7 +55,7 @@ LOCK TABLES `t_admin` WRITE;
 
 INSERT INTO `t_admin` (`id`, `username`, `password`, `encrypt`, `lastloginip`, `lastlogintime`, `email`, `mobile`, `realname`, `openid`, `status`, `updatetime`)
 VALUES
-  (1,'admin','21232f297a57a5a743894a0e4a801fc3','',2130706433,1479969414,'5552123@qq.com','18259106776','阿杜','',1,1477623198),
+  (1,'admin','14E72D61F1065519E3017482677CD1ED','1qaz2w',2130706433,1479969414,'396342220@qq.com','18259106776','阿杜','',1,1477623198),
   (2,'zhenxun','c2785bf6585103658d34413683ac36f8','',2130706433,1476067533,'','18888873646','','',1,1477624790),
   (3,'zhangsan','01d7f40760960e7bd9443513f22ab9af','',0,0,'','','','',1,1477625400),
   (4,'test','098f6bcd4621d373cade4e832627b4f6','',2130706433,1495012830,'','','小演','',1,1479969550);
@@ -260,6 +260,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 --  Table structure for `t_mail_log`
 -- ----------------------------
+DROP TABLE `t_mail_log`;
 CREATE TABLE `t_mail_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT ,
   `email` varchar(50) NOT NULL DEFAULT '' COMMENT '邮件地址',

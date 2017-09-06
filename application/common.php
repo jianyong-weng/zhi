@@ -405,21 +405,46 @@ function sendMail($to,$title,$content,$type = 1){
 
 
 /**
- * 统计中文字符串长度
- * @param $str 要计算长度的字符串
- * @param $type 计算长度类型，0(默认)表示一个中文算一个字符，1表示一个中文算两个字符
+ * 手机号校验
+ * @param $mobile   string      手机号
+ * @param $return   boolean     校验结果
  *
  */
-function abslength($str)
+function validateMobile($mobile)
 {
-    if(empty($str)){
-        return 0;
+    return preg_match('/^((\+86)|(86))?(1[3|5|7|8])\d{9}$/',$mobile); //  
+}
+
+
+/**
+ * 生成随机数
+ *
+ * @param   int     $len        随机数长度
+ * @param   string  $format     随机数格式
+ * @return  string  $randstr    返回随机数
+ */
+function randStr($len=6,$format='ALL'){
+    switch($format){
+        case 'ALL':
+                $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                break;
+        case 'SMALLALL':
+                $chars='abcdefghijklmnopqrstuvwxyz0123456789';
+                break;
+        case 'CHAR':
+                $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+                break;
+        case 'NUMBER':
+                $chars='0123456789';
+                break;
+        default :
+                $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                break;
+    } 
+    $randstr = '';
+    for($i = 0,$length = strlen($chars);$i < $len;$i++){  
+        $num = mt_rand(0,$length)   ;
+        $randstr .= $chars[$num];
     }
-    if(function_exists('mb_strlen')){
-        return mb_strlen($str,'utf-8');
-    }
-    else {
-        preg_match_all("/./u", $str, $ar);
-        return count($ar[0]);
-    }
+    return $randstr;
 }
