@@ -10,15 +10,15 @@
             <div class="space-6"></div>
             <p> Enter your details to begin: </p>
 
-            <form action='admin/login/signup' method='post'>
+            <form action='' method='post'>
                 <fieldset>
                     <label class="block clearfix">
                         <span class="block input-icon input-icon-right">
-                            <input type="email" name="email" class="form-control" placeholder="Email" />
-                            <i class="ace-icon fa fa-envelope"></i>
-                            {if condition="($error.email == 1) OR ($error.email == 2) "}
+                            <input type="text" name="mobile" class="form-control" placeholder="Mobile" />
+                            <i class="ace-icon fa fa-phone"></i>
+                            {if condition="($error.mobile eq '') "}
                                 <i class="ace-icon fa fa-remove red error_tip"></i>
-                            {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
+                            {else /}
                             {/if}
                         </span>
                     </label>
@@ -27,7 +27,18 @@
                         <span class="block input-icon input-icon-right">
                             <input type="text" name="name" class="form-control" placeholder="Username" />
                             <i class="ace-icon fa fa-user"></i>
-                            {if condition="($error.email == 1) OR ($error.email == 2) "}
+                            {if condition="($error.name eq '') "}
+                                <i class="ace-icon fa fa-remove red error_tip"></i>
+                            {else /}
+                            {/if}
+                        </span>
+                    </label>                    
+
+                    <label class="block clearfix">
+                        <span class="block input-icon input-icon-right">
+                            <input type="email" name="email" class="form-control" placeholder="Email" />
+                            <i class="ace-icon fa fa-envelope"></i>
+                            {if condition="($error.email eq '') "}
                                 <i class="ace-icon fa fa-remove red error_tip"></i>
                             {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
                             {/if}
@@ -38,7 +49,7 @@
                         <span class="block input-icon input-icon-right">
                             <input type="password" name="password" class="form-control" placeholder="Password" />
                             <i class="ace-icon fa fa-lock"></i>
-                            {if condition="($error.password == 1) OR ($error.password == 2) "}
+                            {if condition="($error.password eq '') "}
                                 <i class="ace-icon fa fa-remove red error_tip"></i>
                             {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
                             {/if}
@@ -49,7 +60,7 @@
                         <span class="block input-icon input-icon-right">
                             <input type="password" name="repassword" class="form-control" placeholder="Repeat password" />
                             <i class="ace-icon fa fa-retweet"></i>
-                            {if condition="($error.repassword == 1) OR ($error.repassword == 2) "}
+                            {if condition="($error.repassword eq '') "}
                                 <i class="ace-icon fa fa-remove red error_tip"></i>
                             {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
                             {/if}
@@ -72,7 +83,7 @@
                             <span class="bigger-110">Reset</span>
                         </button>
 
-                        <button type="button" class="width-65 pull-right btn btn-sm btn-success">
+                        <button type="button" onclick="form.submit()" class="width-65 pull-right btn btn-sm btn-success">
                             <span class="bigger-110">Register</span>
 
                             <i class="ace-icon fa fa-arrow-right icon-on-right"></i>

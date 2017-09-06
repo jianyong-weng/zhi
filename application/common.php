@@ -403,25 +403,6 @@ function sendMail($to,$title,$content,$type = 1){
     }
 }
 
-/**
- * 正则验证邮箱
- *
- *
- * @param   string  $email      邮箱
- * @return  boolean $result     发送结果
- */
-function validate_email($email = ''){
-    if($email == ''){
-        return false;
-    }
-
-    if(preg_match('/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/',$email)){
-        return true;
-    }else{
-        return false;
-    }
-
-}
 
 /**
  * 统计中文字符串长度

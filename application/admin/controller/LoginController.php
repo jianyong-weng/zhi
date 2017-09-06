@@ -12,6 +12,7 @@ namespace application\admin\controller;
 
 use think\Controller;
 use think\Loader;
+use think\Validate;
 
 class LoginController extends Controller {
 
@@ -104,7 +105,8 @@ class LoginController extends Controller {
 
         if( $_POST ){ 
 
-            if(validate_email($email)) {
+            $res = Validate::is($email,'email');
+            if($res) {
                 //查找该邮箱是否在admin表中
                 $where = array('email' => $email);
                 $is_exist = model('admin')->searchAdmin(array('email' => $email),'id');
@@ -128,7 +130,7 @@ class LoginController extends Controller {
                 }
             }else{
                 $error = array();
-                $error['email'] = "error";
+                $error['email'] = 'error';
                 $this->assign("error",$error);
             }            
             
@@ -148,14 +150,11 @@ class LoginController extends Controller {
 
         if($_POST && $_POST['key']){
 
-            //密码基本判断
-            if($p['password'] == ''){
+            //密码基本判断            
+            if(!Validate::is($p['password'],'require|length:8,16')){ //($p['password']) < 8 || abslength($p['password']) > 16
                 $error['password'] = 1;
-            }else{
-                if(abslength($p['password']) < 8 || abslength($p['password']) > 16){
-                    $error['password'] = 1;
-                }
             }
+            
 
             if($p['repassword'] == ''){
                 $error['repassword'] = 1;
@@ -206,8 +205,21 @@ class LoginController extends Controller {
         return $this->fetch('reset');
     }
 
+    /**
+     * 注册新用户
+     */
     public function signup(){      
-       
+        if($_POST){
+            $error  = array();
+            $p      = input('post.');
+
+            $error['name'] = Validate::is($p['name'],'length:8,16');
+            $error['email'] = Validate::is($p['email'],'email');
+
+
+            dump($error);
+            $this->assign('error',$error);
+        }
         $this->view->engine->layout(false);        
         return $this->fetch('signup');
     }
