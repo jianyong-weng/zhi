@@ -20,6 +20,7 @@ class LoginController extends Controller {
      * 登入
      */    
     public function index(){  
+        
         $p  = input('post.');
         if($_POST){
             //用户名（或手机号）和密码
@@ -46,7 +47,7 @@ class LoginController extends Controller {
                 if (!$info) {
                      $error['mobile'] = 2;              
                 }
-                
+               
                 if (md5($password.$info['encrypt']) != $info['password']) {
                     $error['password'] = 2;
                 }
@@ -57,34 +58,32 @@ class LoginController extends Controller {
                 $this->assign("error",$error);               
                 return $this->fetch('login');
             }
-            //查询到信息，则存入数据库
-            session('user_name', $info['username']);
+            //查询到信息，则存入数据库            
             session('user_id', $info['id']);
             session('user_mobile', $info['mobile']);
 
 
             //记住密码
-            if (input('post.islogin')) {
-                cookie('user_name', encry_code($info['username']));
+            if (input('post.islogin')) {                
                 cookie('user_id', encry_code($info['id']));
+                cookie('user_mobile', encry_code($info['mobile']));
             }
 
             //记录登录信息
-            model('Admin')->editInfo(1, $info['id']);
+            model('Admin')->editInfo(1, array('id'=>$info['id']));
             return $this->fetch('index/index');
         }
         else
-        {
-            if (session('user_name')) {
+        {   
+            if (session('user_id')) {
                 return $this->fetch('index/index');
             }
 
-            if (cookie('user_name')) {
-                $username = encry_code(cookie('user_name'),'DECODE');
-                $info = db('admin')->field('id,username,password')->where('username', $username)->find();
+            if (cookie('user_id')) {
+                $mobile = encry_code(cookie('user_mobile'),'DECODE');
+                $info = db('admin')->field('id,password')->where('mobile', $mobile)->find();
                 if ($info) {
-                    //记录
-                    session('user_name', $info['username']);
+                    //记录                    
                     session('user_id', $info['id']);
                     model('Admin')->editInfo(1, $info['id']);
                     return $this->fetch('index/index');
@@ -116,7 +115,7 @@ class LoginController extends Controller {
                     //邮箱已注册情况下,发送邮件
                     $key     = md5(time().'newtp5'.$email);
                     $title   = 'NEW_TP5找回密码';
-                    $content = "找回密码<a href='http://newtp5/admin/login/reset?email=".$email."&key=".$key."'>请点击此链接</a>,本链接半小时内点击有效。";
+                    $content = "找回密码<a href='http://newtp5/admin/login/reset?email=".$email."&key=".$key."'>请点击此链接</a>,本链接半小时内点击有效。https://www.kancloud.cn/mikkle/thinkphp5_study/268678";
                     $result  = sendMail($email,$title,$content);
                     if($result){
                         //修改邮件发送记录             
@@ -208,27 +207,27 @@ class LoginController extends Controller {
     /**
      * 注册新用户
      */
-    public function signup(){   
+    public function signup(){          
+       
+        $p = input('post.'); 
+        if($_POST && $p['isagree'] && Validate::token($p['__hash__'],'__hash__',$p) ){//
 
-        
-        if($_POST && input('post.isagree')){
-            $error  = array();
-            $p      = input('post.');
+            $error  = array();            
 
             if(!validateMobile($p['mobile'])){
                 $error['mobile'] = 1;
             }            
-
+            
             if(!Validate::is($p['email'],'email')){
                 $error['email'] = 1;
             }
 
-            if(!Validate::length($p['password'],'8,16') ){ 
+            if(!Validate::length($p['password'],'6,16') ){ 
                 $error['password'] = 1;
             }
             
             if(!Validate::confirm($p['repassword'],'password',$p) 
-                || !Validate::length($p['password'],'8,16') ){
+                || !Validate::length($p['password'],'6,16') ){
                 $error['repassword'] = 1;
             } 
             
@@ -236,15 +235,16 @@ class LoginController extends Controller {
                 //手机号是否注册
                 $is_exist = Model('admin')->searchAdmin(array('mobile' => $p['mobile']),'id');
                 if(!$is_exist){
-                    $res = Model('admin')->createAdmin($p);
+                    $res = Model('admin')->createAdmin($p); //插入成功返回id,插入失败返回false
                     if($res){
-                        //查询到信息，则存入数据库
-                        session('user_name', $info['username']);
-                        session('user_id', $info['id']);
-                        session('user_mobile', $info['mobile']);
-
+                        //查询到信息，则存入数据库 
+                        session('user_id',$res);                       
+                        session('user_mobile', $p['mobile']);    
+                        
+                        cookie('user_id', encry_code($res));
+                        cookie('user_mobile', encry_code($p['mobile']));                        
                         //记录登录信息                        
-                        return $this->fetch('index/index');
+                        return $this->redirect('index/index');                        
                     }else{
                         $message = "注册失败，请重试！";
                     }
@@ -255,10 +255,11 @@ class LoginController extends Controller {
                       
             $this->assign("feedback",$p);
             $this->assign('error',$error);
-        }
-        
+        }         
+
         $this->view->engine->layout(false);        
         return $this->fetch('signup');
+                     
     }
     
 
@@ -266,9 +267,9 @@ class LoginController extends Controller {
      * 登出
      */
     public function logout() {
-        session('user_name', null);
+        session('user_mobile', null);
         session('user_id', null);
-        cookie('user_name', null);
+        cookie('user_mobile', null);
         cookie('user_id', null);
         $this->view->engine->layout(false);
         return $this->fetch('login');

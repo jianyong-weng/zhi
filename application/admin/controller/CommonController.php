@@ -15,7 +15,7 @@ use think\Controller;
 class CommonController extends Controller {
 
     protected $user_id;
-    protected $user_name;
+    protected $mobile;
 
     public function __construct(\think\Request $request = null) {
 
@@ -27,7 +27,7 @@ class CommonController extends Controller {
         }
 
         $this->user_id = session('user_id');
-        $this->user_name = session('user_name');
+        $this->user_mobile = session('user_mobile');
 
         //权限检查
         if (!$this->_checkAuthor($this->user_id)) {
@@ -35,7 +35,7 @@ class CommonController extends Controller {
         }
 
         //记录日志
-        $this->_addLog();
+        //$this->_addLog();
     }
 
     /**
@@ -80,7 +80,7 @@ class CommonController extends Controller {
         $data['c'] = request()->controller();
         $data['a'] = request()->action();
         $data['userid'] = $this->user_id;
-        $data['username'] = $this->user_name;
+        $data['mobile'] = $this->mobile;
         $data['ip'] = ip2long(request()->ip());
         $arr = array('Index/index','Log/index','Menu/index');
         if (!in_array($data['c'].'/'.$data['a'], $arr)) {

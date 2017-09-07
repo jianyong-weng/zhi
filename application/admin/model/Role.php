@@ -10,9 +10,9 @@
 
 namespace application\admin\model;
 
-class AdminGroup extends \think\Model {
+class Role extends \think\Model {
 
-    public function getGroups() {
+    public function getRole() {
 
         $res = db('role')->field('id,name')->select();
         $data = array();
@@ -22,7 +22,7 @@ class AdminGroup extends \think\Model {
         return $data;
     }
 
-    public function getGroupName($group_id) {
+    public function getRoleName($group_id) {
         return db('role')->where(['id' => $group_id])->value('name');
     }
 

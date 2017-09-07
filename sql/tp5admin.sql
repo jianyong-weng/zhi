@@ -55,7 +55,7 @@ LOCK TABLES `t_admin` WRITE;
 
 INSERT INTO `t_admin` (`id`, `username`, `password`, `encrypt`, `lastloginip`, `lastlogintime`, `email`, `mobile`, `realname`, `openid`, `status`, `updatetime`)
 VALUES
-  (1,'admin','14E72D61F1065519E3017482677CD1ED','1qaz2w',2130706433,1479969414,'396342220@qq.com','18259106776','阿杜','',1,1477623198),
+  (1,'admin','a073e2b76eaa811611a2a3aac46601d8','1qaz1q',2130706433,1479969414,'396342220@qq.com','18259106776','阿杜','',1,1477623198),
   (2,'zhenxun','c2785bf6585103658d34413683ac36f8','',2130706433,1476067533,'','18888873646','','',1,1477624790),
   (3,'zhangsan','01d7f40760960e7bd9443513f22ab9af','',0,0,'','','','',1,1477625400),
   (4,'test','098f6bcd4621d373cade4e832627b4f6','',2130706433,1495012830,'','','小演','',1,1479969550);
@@ -145,7 +145,7 @@ LOCK TABLES `t_admin_log` WRITE;
 
 INSERT INTO `t_admin_log` (`id`, `m`, `c`, `a`, `querystring`, `userid`, `username`, `ip`, `time`)
 VALUES
-  (1,'admin','Group','index','',4,'test',2130706433,0);
+  (1,'admin','Role','index','',4,'test',2130706433,0);
 
 /*!40000 ALTER TABLE `t_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -189,7 +189,7 @@ CREATE TABLE `t_config` (
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '配置名称',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置类型',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '配置说明',
-  `group` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置分组',
+  `Role` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置分组',
   `extra` varchar(255) NOT NULL DEFAULT '' COMMENT '配置值',
   `remark` varchar(100) NOT NULL COMMENT '配置说明',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -200,7 +200,7 @@ CREATE TABLE `t_config` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_name` (`name`),
   KEY `type` (`type`),
-  KEY `group` (`group`)
+  KEY `Role` (`Role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置表' ;
 
 
@@ -238,18 +238,18 @@ INSERT INTO `t_menu` VALUES ('1', '管理设置', '0', 'fa-users','', 'Admin', '
  ('4', '添加', '2', '','', 'Admin', 'add', '', '', '', '0', '2', '1476175413'), 
 ('5', '修改', '2', '', '','Admin', 'edit', '', '', '', '0', '2', '1476175413'), 
 ('6', '删除', '2', '','', 'Admin', 'del', '', '', '', '0', '2', '1476175413'), 
-('7', '分组管理', '1', '','', 'Group', 'index', '', '', '', '0', '1', '1476175413'), 
-('8', '详情', '7', '','', 'Group', 'info', '', '', '', '0', '2', '1476175413'), 
-('9', '添加', '7', '','', 'Group', 'add', '', '', '', '0', '2', '1476175413'),
- ('10', '修改', '7', '','', 'Group', 'edit', '', '', '', '0', '2', '1476175413'), 
-('11', '删除', '7', '','', 'Group', 'del', '', '', '', '0', '2', '1476175413'), 
+('7', '分组管理', '1', '','', 'Role', 'index', '', '', '', '0', '1', '1476175413'), 
+('8', '详情', '7', '','', 'Role', 'info', '', '', '', '0', '2', '1476175413'), 
+('9', '添加', '7', '','', 'Role', 'add', '', '', '', '0', '2', '1476175413'),
+ ('10', '修改', '7', '','', 'Role', 'edit', '', '', '', '0', '2', '1476175413'), 
+('11', '删除', '7', '','', 'Role', 'del', '', '', '', '0', '2', '1476175413'), 
 ('12', '菜单管理', '18','', '', 'Menu', 'index', '', '', '', '0', '1', '1476175413'),
  ('13', '查看', '12', '','', 'Menu', 'info', '', '', '', '0', '2', '1476175413'), 
 ('14', '添加', '12', '','', 'Menu', 'add', '', '', '', '0', '2', '1476175413'),
  ('15', '修改', '12', '','', 'Menu', 'edit', '', '', '', '0', '2', '1476175413'),
  ('16', '删除', '12', '','', 'Menu', 'del', '', '', '', '0', '2', '1476175413'), 
 ('18', '系统设置', '0', 'fa-cogs','', 'Menu', 'index', '', '', '', '2', '1', '1476175413'),
- ('22', '权限设置', '2', '', '','Group', 'rule', '', '', '', '999', '2', '1476175413'),
+ ('22', '权限设置', '2', '', '','Role', 'rule', '', '', '', '999', '2', '1476175413'),
  ('23', '个人设置', '1', '', '','Admin', 'public_edit_info', '', '', '', '999', '1', '1476175413'), 
 ('27', '日志管理', '18', '','', 'Log', 'index', '', '', '', '999', '1', '1476175413'),
  ('31', '系统首页', '0', 'fa-bank','', 'Index', 'index', '', '', '', '0', '1', '1476175413');

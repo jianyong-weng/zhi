@@ -71,8 +71,9 @@
                         </span>
                     </label>
                     {/if}
-                    <div class="space-24"></div>
-
+                    <div class="space-6"></div>
+                    
+                    <input type="hidden" name="__hash__" value="{$Request.token.__hash__}" />
                     <div class="clearfix">
                         <button type="reset" class="width-30 pull-left btn btn-sm">
                             <i class="ace-icon fa fa-refresh"></i>

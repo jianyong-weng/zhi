@@ -104,7 +104,8 @@ class RoleController extends CommonController {
             $data = array();
             $data['updatetime'] = time();
             $data['rules'] = $rules;
-
+            var_dump($where);
+            var_dump($data);
             $res = model('role')->save($data, $where);
 
             if ($res) {

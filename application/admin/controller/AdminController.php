@@ -60,7 +60,7 @@ class AdminController extends CommonController {
         }
 
         //所有组信息
-        $groups = model('Role')->getGroups();
+        $groups = model('Role')->getRole();
 
         $this->assign('groups', $groups);
         return $this->fetch();

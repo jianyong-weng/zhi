@@ -97,7 +97,9 @@ class Admin extends \think\Model {
         $data['password']   = md5($data['password'].$data['encrypt']);
 
         $res = $this->allowField(true)->save($data);        
-        
+        if($res){
+            return $this->id;
+        }
         return $res; 
     }
 }
