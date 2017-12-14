@@ -162,7 +162,7 @@ class AdminController extends CommonController {
                 $data['password'] = md5($data['password']);
             }
 
-            $res = Loader::model('Admin')->editInfo(2, $this->user_id, $data);
+            $res = Loader::model('Admin')->editInfo(2, array("id" => $this->user_id), $data);
 
             if ($res) {
                 $this->success('修改成功');

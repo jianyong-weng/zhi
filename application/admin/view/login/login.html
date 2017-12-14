@@ -9,12 +9,12 @@
 
             <div class="space-6"></div>
 
-            <form action="/admin/login/index" method="post" name="loginform">
+            <form action="{:url('admin/login/index','','',true)}" method="post" name="loginform">
                 <fieldset>
                     <label class="block clearfix">
                         <span class="block input-icon input-icon-right">
                             <input type="text" class="form-control" name="mobile" placeholder="Mobile" value="{$feedback.mobile}" />
-                            <i class="ace-icon fa fa-phone"></i>
+                            <i class="ace-icon fa fa-mobile"></i>
                             {if condition="($error.mobile == 1) OR ($error.mobile == 2) "}
                                 <i class="ace-icon fa fa-remove error_tip"></i>
                             {else /}<!--<i class="ace-icon fa fa-check red"></i> -->

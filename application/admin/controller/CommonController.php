@@ -23,7 +23,7 @@ class CommonController extends Controller {
 
         if (!session('user_id')) {
 
-            $this->error('请登陆', 'login/index', '', 0);
+            $this->fetch('login/index');
         }
 
         $this->user_id = session('user_id');
@@ -50,7 +50,6 @@ class CommonController extends Controller {
             return true;
         }
 
-        $m = strtolower(request()->module());
         $c = strtolower(request()->controller());
         $a = strtolower(request()->action());
 
@@ -61,11 +60,15 @@ class CommonController extends Controller {
             return true;
         }
         $menu = model('Menu')->getMyMenu($user_id);
-        foreach ($menu as $k => $v) {
-            if (strtolower($v['c']) == $c && strtolower($v['a']) == $a) {
-                return true;
+
+        if($menu){
+            foreach ($menu as $k => $v) {
+                if (strtolower($v['c']) == $c && strtolower($v['a']) == $a) {
+                    return true;
+                }
             }
         }
+                
         return false;
     }
 

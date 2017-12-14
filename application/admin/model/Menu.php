@@ -1,11 +1,11 @@
 <?php
 
 /**
- *  
- * @file   Menu.php  
- * @date   2016-9-1 15:48:53 
- * @author Zhenxun Du<5552123@qq.com>  
- * @version    SVN:$Id:$ 
+ *
+ * @file   Menu.php
+ * @date   2016-9-1 15:48:53
+ * @author Zhenxun Du<5552123@qq.com>
+ * @version    SVN:$Id:$
  */
 
 namespace application\admin\model;
@@ -16,10 +16,6 @@ class Menu extends Model {
 
     public $display = array('1' => '显示', '2' => '不显示');
 
-    /**
-     * 获取当前方法名
-     * @return type
-     */
     public function getName() {
         $where = array();
         $where['c'] = request()->controller();
@@ -104,19 +100,20 @@ class Menu extends Model {
     /**
      * 我的菜单
      * @param type $user_id
-     * @param type $display 
+     * @param type $display
      * @return array
      */
     public function getMyMenu($user_id, $display = null) {
+        /*
         $where = array();
         if ($user_id != 1) {
             $res = db('role_admin')
                     ->alias('t1')
                     ->field('t2.rules')
                     ->join(config('database.prefix').'role t2', 't1.role_id=t2.id', 'left')
-                    ->where(['t1.admin_id' => $user_id])                    
+                    ->where(['t1.admin_id' => $user_id])
                     ->select();
-           
+
             if (!$res) {
                 return false;
             }
@@ -126,17 +123,27 @@ class Menu extends Model {
             }
 
             $menu_ids = trim($tmp, ',');
+
+            if(!$menu_ids){
+                return false;
+            }
+
             $where['id'] = ['in', $menu_ids];
         }
-
 
         if ($display) {
             $where['display'] = $display;
         }
 
-        $res = db('menu')->where($where)->order('listorder asc')->select();
-        
-        return $res;
+        $res = db('menu')
+                    ->where($where)
+                    ->order('listorder desc')
+                    ->select();
+        */
+        $menu = config("menu.admin");
+
+        //找出权限表中该人物角色的权限
+        return $menu;
     }
 
 }

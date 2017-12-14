@@ -15,7 +15,10 @@ class IndexController extends CommonController{
      * 后台首页
      */
     public function index(){ 
-             	
+        
+        if(!session('right')){
+        	
+        }
         return $this->fetch();
     }
     

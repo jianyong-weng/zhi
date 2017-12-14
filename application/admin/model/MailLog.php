@@ -30,8 +30,7 @@ class MailLog extends Model {
                     'title'     => $title,
                     'content'   => $content,
                     'key'       => $key,
-                    'type'		=> $type,
-                    'time'		=> time() 
+                    'type'		=> $type
             );
 
 		$res = $this->allowField(true)->save($data);
@@ -51,11 +50,30 @@ class MailLog extends Model {
         if(!is_array($where) || empty($where) || !is_array($data) || empty($data)){
             return false;
         }
-
-        $data['updatetime'] = time();
-
+        
         $res = $this->allowField(true)->save($data,$where);
 
         return $res;
+    }
+
+    /**
+     *查找邮件是否已使用
+     *
+     * @param  array    $where      搜索条件
+     * @param  array    $data       修改字段
+     * @return int
+     */
+    public function isUse($email = ''){
+        if( empty($email) ){
+            return false;
+        }
+
+        $res = $this->field('id')
+                    ->where('email',$email)
+                    ->where('status',1)
+                    ->whereTime('time','>','-1 hours')
+                    ->find();
+        var_dump($res['id']);
+        return $res['id'];
     }
 }

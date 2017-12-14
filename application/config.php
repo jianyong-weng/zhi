@@ -53,7 +53,7 @@ return [
     // | 模块设置
     // +----------------------------------------------------------------------
     // 默认模块名
-    'default_module' => 'index',
+    'default_module' => 'admin',
     // 禁止访问模块
     'deny_module_list' => ['common'],
     // 默认控制器名
@@ -88,8 +88,8 @@ return [
     // 是否强制使用路由
     'url_route_must' => false,
     // 域名部署
-    'url_domain_deploy' => false,
-    // 域名根，如.thinkphp.cn
+    'url_domain_deploy' => true,
+    // 域名根，如.thinkphp.cn/.zhi0315.cn
     'url_domain_root' => '',
     // 是否自动转换URL中的控制器和操作名
     'url_convert' => true,
@@ -211,7 +211,7 @@ return [
         'var_page' => 'page',
         'list_rows' => 15,
     ],
-    'encry_key' => 'weng',
+    'encry_key' => 'zhi',
 
     // +----------------------------------------------------------------------
     // | 邮箱服务器参数

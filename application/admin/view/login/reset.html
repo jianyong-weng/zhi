@@ -12,16 +12,12 @@
                     Enter Password And Reset Password
                 </p>
 
-                <form action="/admin/login/reset" method="post" name="">
+                <form action="" method="post" name="">
                     <fieldset>
                         <label class="block clearfix">
                             <span class="block input-icon input-icon-right">
                                 <input type="password" name="password" class="form-control" placeholder="Enter 8-16 bit password" />
                                 <i class="ace-icon fa fa-lock"></i>
-                                {if condition="$error.password neq ''"}
-                                    <i class="ace-icon fa fa-remove red error_tip"></i>
-                                {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
-                                {/if}
                             </span>
                         </label>
 
@@ -29,15 +25,10 @@
                             <span class="block input-icon input-icon-right">
                                 <input type="password" name="repassword" class="form-control" placeholder="Confirm Password" />
                                 <i class="ace-icon fa fa-retweet"></i>
-                                {if condition="$error.repassword neq ''"}
-                                    <i class="ace-icon fa fa-remove red error_tip"></i>
-                                {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
-                                {/if}
                             </span>
                         </label>
                         
-                        <input type="hidden" name="email" value="{$feedback.email|default=''}">
-                        <input type="hidden" name="key" value="{$feedback.key|default=''}">
+                        <input type="hidden" name="key" value="{$key}">
                         <div class="clearfix">
                             <button type="button" onclick="form.submit()" class="width-35 pull-right btn btn-sm btn-danger">
                                 <i class="ace-icon fa fa-lightbulb-o"></i>
@@ -47,7 +38,7 @@
 
                         <label class="block clearfix">
                             <span class="block red">
-                                {if condition="$message neq '' "}{$message}{/if}
+                                {if condition="$message"}{$message}{/if}
                             </span>
                         </label>
                        

@@ -56,10 +56,7 @@ class Admin extends \think\Model {
     public function editInfo($type, $where, $data = array()) {
         
         if ($type == 1) {
-            $data['lastlogintime'] = time();
             $data['lastloginip'] = ip2long(request()->ip());
-        } elseif ($type == 2) {
-            $data['updatetime'] = time();
         }
         $res = $this->allowField(true)->save($data,$where);        
         

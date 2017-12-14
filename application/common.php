@@ -412,7 +412,7 @@ function sendMail($to,$title,$content,$type = 1){
  */
 function validateMobile($mobile)
 {
-    return preg_match('/^((\+86)|(86))?(1[3|5|7|8])\d{9}$/',$mobile); //  
+    return preg_match('/^((\+86)|(86))?(1[3|5|7|8}9])\d{9}$/',$mobile); //  
 }
 
 
@@ -423,7 +423,7 @@ function validateMobile($mobile)
  * @param   string  $format     随机数格式
  * @return  string  $randstr    返回随机数
  */
-function randStr($len=6,$format='ALL'){
+function rand_str($len=6,$format='ALL'){
     switch($format){
         case 'ALL':
                 $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -447,4 +447,26 @@ function randStr($len=6,$format='ALL'){
         $randstr .= $chars[$num];
     }
     return $randstr;
+}
+
+/**
+ * 权限数组
+ *
+ * @param   int     $user_id        用户ID
+ * @return  array   $session.right  返回权限数组
+ */
+
+function adminAuth($user_id = null){
+    if($user_id == null){
+        return false;
+    }
+
+    if($user_id == 1){
+        session('right',1);
+        return true;
+    }
+
+    $rights = model('menu')->getMyMenu($user_id);
+
+
 }
