@@ -3,12 +3,14 @@ use phpmailer\Phpmailer;
 use phpmailer\Smtp;
 
 // 应用公共文件
-function p($str) {
+function p($str)
+{
     echo '<pre>';
     print_r($str);
 }
 
-function nodeTree($arr, $id = 0, $level = 0) {
+function nodeTree($arr, $id = 0, $level = 0)
+{
     static $array = array();
     foreach ($arr as $v) {
         if ($v['parentid'] == $id) {
@@ -29,7 +31,8 @@ function nodeTree($arr, $id = 0, $level = 0) {
  * @param type $child
  * @return type
  */
-function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'parentid', $child = '_child') {
+function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'parentid', $child = '_child')
+{
     // 创建Tree
     $tree = array();
     if (is_array($list)) {
@@ -60,16 +63,20 @@ function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'parentid', $child = 
 /**
  * 下拉选择框
  */
-function select($array = array(), $id = 0, $str = '', $default_option = '') {
+function select($array = array(), $id = 0, $str = '', $default_option = '')
+{
     $string = '<select ' . $str . '>';
     $default_selected = (empty($id) && $default_option) ? 'selected' : '';
-    if ($default_option)
+    if ($default_option) {
         $string .= "<option value='' $default_selected>$default_option</option>";
-    if (!is_array($array) || count($array) == 0)
+    }
+    if (!is_array($array) || count($array) == 0) {
         return false;
+    }
     $ids = array();
-    if (isset($id))
+    if (isset($id)) {
         $ids = explode(',', $id);
+    }
     foreach ($array as $key => $value) {
         $selected = in_array($key, $ids) ? 'selected' : '';
         $string .= '<option value="' . $key . '" ' . $selected . '>' . $value . '</option>';
@@ -80,29 +87,34 @@ function select($array = array(), $id = 0, $str = '', $default_option = '') {
 
 /**
  * 复选框
- * 
+ *
  * @param $array 选项 二维数组
  * @param $id 默认选中值，多个用 '逗号'分割
  * @param $str 属性
  * @param $defaultvalue 是否增加默认值 默认值为 -99
  * @param $width 宽度
  */
-function checkbox($array = array(), $id = '', $str = '', $defaultvalue = '', $width = 0, $field = '') {
+function checkbox($array = array(), $id = '', $str = '', $defaultvalue = '', $width = 0, $field = '')
+{
     $string = '';
     $id = trim($id);
-    if ($id != '')
+    if ($id != '') {
         $id = strpos($id, ',') ? explode(',', $id) : array($id);
-    if ($defaultvalue)
+    }
+    if ($defaultvalue) {
         $string .= '<input type="hidden" ' . $str . ' value="-99">';
+    }
     $i = 1;
     foreach ($array as $key => $value) {
         $key = trim($key);
         $checked = ($id && in_array($key, $id)) ? 'checked' : '';
-        if ($width)
+        if ($width) {
             $string .= '<label class="ib" style="width:' . $width . 'px">';
+        }
         $string .= '<input type="checkbox" ' . $str . ' id="' . $field . '_' . $i . '" ' . $checked . ' value="' . $key . '"> ' . $value;
-        if ($width)
+        if ($width) {
             $string .= '</label>';
+        }
         $i++;
     }
     return $string;
@@ -110,20 +122,23 @@ function checkbox($array = array(), $id = '', $str = '', $defaultvalue = '', $wi
 
 /**
  * 单选框
- * 
+ *
  * @param $array 选项 二维数组
  * @param $id 默认选中值
  * @param $str 属性
  */
-function radio($array = array(), $id = 0, $str = '', $width = 0, $field = '') {
+function radio($array = array(), $id = 0, $str = '', $width = 0, $field = '')
+{
     $string = '';
     foreach ($array as $key => $value) {
         $checked = trim($id) == trim($key) ? 'checked' : '';
-        if ($width)
+        if ($width) {
             $string .= '<label class="ib" style="width:' . $width . 'px">';
+        }
         $string .= '<input type="radio" ' . $str . ' id="' . $field . '_' . $key . '" ' . $checked . ' value="' . $key . '"> ' . $value;
-        if ($width)
+        if ($width) {
             $string .= '</label>';
+        }
     }
     return $string;
 }
@@ -138,7 +153,8 @@ function radio($array = array(), $id = 0, $str = '', $width = 0, $field = '') {
  * @param	string	$expiry		过期时间
  * @return	string
  */
-function encry_code($string, $operation = 'ENCODE', $key = '', $expiry = 0) {
+function encry_code($string, $operation = 'ENCODE', $key = '', $expiry = 0)
+{
     $ckey_length = 4;
     $key = md5($key != '' ? $key : config('encry_key'));
     $keya = md5(substr($key, 0, 16));
@@ -189,62 +205,64 @@ function encry_code($string, $operation = 'ENCODE', $key = '', $expiry = 0) {
 
 //======================身份证验证 start =========================
 //身份证验证
-function validate_id_card($id_card) 
-{ 
-    if(strlen($id_card) == 18){ 
-        return idcard_checksum18($id_card); 
-    }elseif((strlen($id_card) == 15)){ 
-        $id_card = idcard_15to18($id_card); 
-        return idcard_checksum18($id_card); 
-    }else{ 
-        return false; 
-    } 
-} 
-// 计算身份证校验码，根据国家标准GB 11643-1999 
-function idcard_verify_number($idcard_base) 
-{ 
-    if(strlen($idcard_base) != 17){ 
-        return false; 
-    } 
-    //加权因子 
-    $factor = array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); 
-    //校验码对应值 
-    $verify_number_list = array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'); 
-    $checksum = 0; 
-    for ($i = 0; $i < strlen($idcard_base); $i++){ 
-        $checksum += substr($idcard_base, $i, 1) * $factor[$i]; 
-    } 
-    $mod = $checksum % 11; 
-    $verify_number = $verify_number_list[$mod]; 
-    return $verify_number; 
-} 
-// 将15位身份证升级到18位 
-function idcard_15to18($idcard){ 
-    if (strlen($idcard) != 15){ 
-        return false; 
-    }else{ 
-        // 如果身份证顺序码是996 997 998 999，这些是为百岁以上老人的特殊编码 
-        if (array_search(substr($idcard, 12, 3), array('996', '997', '998', '999')) !== false){ 
-            $idcard = substr($idcard, 0, 6) . '18'. substr($idcard, 6, 9); 
-        }else{ 
-            $idcard = substr($idcard, 0, 6) . '19'. substr($idcard, 6, 9); 
-        } 
-    } 
-    $idcard = $idcard . idcard_verify_number($idcard); 
-    return $idcard; 
-} 
-// 18位身份证校验码有效性检查 
-function idcard_checksum18($idcard){ 
-    if (strlen($idcard) != 18){ 
-        return false; 
-    } 
-    $idcard_base = substr($idcard, 0, 17); 
-    if (idcard_verify_number($idcard_base) != strtoupper(substr($idcard, 17, 1))){ 
-        return false; 
-    }else{ 
-        return true; 
-    } 
-} 
+function validateIdCard($id_card)
+{
+    if (strlen($id_card) == 18) {
+        return idcardCheckSum18($id_card);
+    } elseif ((strlen($id_card) == 15)) {
+        $id_card = idcard15To18($id_card);
+        return idcardCheckSum18($id_card);
+    } else {
+        return false;
+    }
+}
+// 计算身份证校验码，根据国家标准GB 11643-1999
+function idcardVerifyNumber($idcard_base)
+{
+    if (strlen($idcard_base) != 17) {
+        return false;
+    }
+    //加权因子
+    $factor = array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+    //校验码对应值
+    $verify_number_list = array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+    $checksum = 0;
+    for ($i = 0; $i < strlen($idcard_base); $i++) {
+        $checksum += substr($idcard_base, $i, 1) * $factor[$i];
+    }
+    $mod = $checksum % 11;
+    $verify_number = $verify_number_list[$mod];
+    return $verify_number;
+}
+// 将15位身份证升级到18位
+function idcard15To18($idcard)
+{
+    if (strlen($idcard) != 15) {
+        return false;
+    } else {
+        // 如果身份证顺序码是996 997 998 999，这些是为百岁以上老人的特殊编码
+        if (array_search(substr($idcard, 12, 3), array('996', '997', '998', '999')) !== false) {
+            $idcard = substr($idcard, 0, 6) . '18'. substr($idcard, 6, 9);
+        } else {
+            $idcard = substr($idcard, 0, 6) . '19'. substr($idcard, 6, 9);
+        }
+    }
+    $idcard = $idcard . idcardVerifyNumber($idcard);
+    return $idcard;
+}
+// 18位身份证校验码有效性检查
+function idcardCheckSum18($idcard)
+{
+    if (strlen($idcard) != 18) {
+        return false;
+    }
+    $idcard_base = substr($idcard, 0, 17);
+    if (idcardVerifyNumber($idcard_base) != strtoupper(substr($idcard, 17, 1))) {
+        return false;
+    } else {
+        return true;
+    }
+}
 //======================身份证验证 end =========================
 
 /**
@@ -254,57 +272,38 @@ function idcard_checksum18($idcard){
  * @return  string $result     返回IP地址
  */
 /*  */
-function get_client_ip ()
+function get_client_ip()
 {
-    static $realip = NULL;
-    if ($realip !== NULL)
-    {
+    static $realip = null;
+    if ($realip !== null) {
         return $realip;
     }
-    if (isset($_SERVER))
-    {
-        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-        {
+    if (isset($_SERVER)) {
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
             /* 取X-Forwarded-For中第?个非unknown的有效IP字符? */
-            foreach ($arr as $ip)
-            {
+            foreach ($arr as $ip) {
                 $ip = trim($ip);
-                if ($ip != 'unknown')
-                {
+                if ($ip != 'unknown') {
                     $realip = $ip;
                     break;
                 }
             }
-        }
-        elseif (isset($_SERVER['HTTP_CLIENT_IP']))
-        {
+        } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
             $realip = $_SERVER['HTTP_CLIENT_IP'];
-        }
-        else
-        {
-            if (isset($_SERVER['REMOTE_ADDR']))
-            {
+        } else {
+            if (isset($_SERVER['REMOTE_ADDR'])) {
                 $realip = $_SERVER['REMOTE_ADDR'];
-            }
-            else
-            {
+            } else {
                 $realip = '0.0.0.0';
             }
         }
-    }
-    else
-    {
-        if (getenv('HTTP_X_FORWARDED_FOR'))
-        {
+    } else {
+        if (getenv('HTTP_X_FORWARDED_FOR')) {
             $realip = getenv('HTTP_X_FORWARDED_FOR');
-        }
-        elseif (getenv('HTTP_CLIENT_IP'))
-        {
+        } elseif (getenv('HTTP_CLIENT_IP')) {
             $realip = getenv('HTTP_CLIENT_IP');
-        }
-        else
-        {
+        } else {
             $realip = getenv('REMOTE_ADDR');
         }
     }
@@ -324,13 +323,14 @@ function get_client_ip ()
  * @param   int     $type       邮件类型
  * @return  boolean $result     发送结果
  */
-   
-function sendMail($to,$title,$content,$type = 1){
+
+function sendMail($to, $title, $content, $type = 1)
+{
 
     //引入PHPMailer的核心文件 使用require_once包含避免出现PHPMailer类重复定义的警告
     //require_once("./class.phpmailer.php");  extend/phpmailer/Phpmailer.php
     //require_once("./class.smtp.php");     extend/phpmailer/Smtp.php
-    
+
     //实例化PHPMailer核心类
     $mail = new Phpmailer();
 
@@ -374,10 +374,10 @@ function sendMail($to,$title,$content,$type = 1){
     $mail->From = config('email.EMAIL_ADDRESS');
 
     //邮件正文是否为html编码 注意此处是一个方法 不再是属性 true或false
-    $mail->isHTML(config('email.EMAIL_HTML')); 
+    $mail->isHTML(config('email.EMAIL_HTML'));
 
     //设置收件人邮箱地址 该方法有两个参数 第一个参数为收件人邮箱地址 第二参数为给该地址设置的昵称 不同的邮箱系统会自动进行处理变动 这里第二个参数的意义不大
-    $mail->addAddress($to,'');
+    $mail->addAddress($to, '');
 
     //添加多个收件人 则多次调用方法即可
     // $mail->addAddress('xxx@163.com','lsgo在线通知');
@@ -396,9 +396,9 @@ function sendMail($to,$title,$content,$type = 1){
     $result = $mail->send();
 
     //简单的判断与提示信息
-    if($result) {       
+    if ($result) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -412,7 +412,7 @@ function sendMail($to,$title,$content,$type = 1){
  */
 function validateMobile($mobile)
 {
-    return preg_match('/^((\+86)|(86))?(1[3|5|7|8}9])\d{9}$/',$mobile); //  
+    return preg_match('/^((\+86)|(86))?(1[3|5|7|8}9])\d{9}$/', $mobile); //
 }
 
 
@@ -423,8 +423,9 @@ function validateMobile($mobile)
  * @param   string  $format     随机数格式
  * @return  string  $randstr    返回随机数
  */
-function rand_str($len=6,$format='ALL'){
-    switch($format){
+function randStr($len=6, $format='ALL')
+{
+    switch ($format) {
         case 'ALL':
                 $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                 break;
@@ -437,13 +438,13 @@ function rand_str($len=6,$format='ALL'){
         case 'NUMBER':
                 $chars='0123456789';
                 break;
-        default :
+        default:
                 $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                 break;
-    } 
+    }
     $randstr = '';
-    for($i = 0,$length = strlen($chars);$i < $len;$i++){  
-        $num = mt_rand(0,$length)   ;
+    for ($i = 0,$length = strlen($chars);$i < $len;$i++) {
+        $num = mt_rand(0, $length)   ;
         $randstr .= $chars[$num];
     }
     return $randstr;
@@ -456,17 +457,16 @@ function rand_str($len=6,$format='ALL'){
  * @return  array   $session.right  返回权限数组
  */
 
-function adminAuth($user_id = null){
-    if($user_id == null){
+function adminAuth($user_id = null)
+{
+    if ($user_id == null) {
         return false;
     }
 
-    if($user_id == 1){
-        session('right',1);
+    if ($user_id == 1) {
+        session('right', 1);
         return true;
     }
 
     $rights = model('menu')->getMyMenu($user_id);
-
-
 }

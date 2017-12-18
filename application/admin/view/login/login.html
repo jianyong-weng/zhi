@@ -13,40 +13,38 @@
                 <fieldset>
                     <label class="block clearfix">
                         <span class="block input-icon input-icon-right">
-                            <input type="text" class="form-control" name="mobile" placeholder="Mobile" value="{$feedback.mobile}" />
+                            <input type="text" class="form-control" name="mobile" placeholder="Mobile" autocomplete="false" />
                             <i class="ace-icon fa fa-mobile"></i>
-                            {if condition="($error.mobile == 1) OR ($error.mobile == 2) "}
-                                <i class="ace-icon fa fa-remove error_tip"></i>
-                            {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
-                            {/if}
-                        </span>           
+                        </span>
                     </label>
-                                                                        
+
 
                     <label class="block clearfix">
                         <span class="block input-icon input-icon-right">
                             <input type="password" name="password" class="form-control" placeholder="Password" />
                             <i class="ace-icon fa fa-lock"></i>
-                            {if condition="($error.password == 1) OR ($error.password == 2) "}
-                                <i class="ace-icon fa fa-remove red error_tip"></i>
-                            {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
-                            {/if}
-                        </span>                                                        
-                    </label>                                                                                      
-                   
+                        </span>
+                    </label>
+
                     <div class="space"></div>
                     <div class="clearfix">
                         <label class="inline">
                             <input type="checkbox" name="islogin" class="ace" />
                             <span class="lbl">记住密码</span>
-                        </label>                       
-                        
+                        </label>
+
                         <button onclick="loginform.submit()" type="button" class="width-35 pull-right btn btn-sm btn-primary">
                             <i class="ace-icon fa fa-key"></i>
                             <span class="bigger-110" >登陆</span>
-                        </button>                                                        
+                        </button>
                     </div>
-
+                    {if condition="$message"}
+                        <label class="block clearfix">
+                            <span class="block red">
+                                {$message}
+                            </span>
+                        </label>
+                    {/if}
                     <div class="space-4"></div>
                 </fieldset>
             </form>
@@ -74,14 +72,14 @@
 
         <div class="toolbar clearfix">
             <div>
-                <a href="/admin/login/forgot" data-target="#forgot-box" class="forgot-password-link">
+                <a onclick="location.href='{:url('admin/login/forgot','','',true)}'" href="javascript:void(0)" class="forgot-password-link">
                     <i class="ace-icon fa fa-arrow-left"></i>
                     I forgot my password
                 </a>
             </div>
 
             <div>
-                <a href="/admin/login/signup" data-target="#signup-box" class="user-signup-link">
+                <a onclick="location.href='{:url('admin/login/signup','','',true)}'" href="javascript:void(0)" class="user-signup-link">
                     I want to register
                     <i class="ace-icon fa fa-arrow-right"></i>
                 </a>
@@ -89,5 +87,5 @@
         </div>
     </div><!-- /.widget-body -->
 </div><!-- /.login-box -->
-{include file="login/footer"}                                
-                            
+{include file="login/footer"}
+

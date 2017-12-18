@@ -10,7 +10,7 @@
             <div class="space-6"></div>
             <p> Enter your details to begin: </p>
 
-            <form action='' method='post'>
+            <form action='{:url('admin/login/signup','','',true)}' method='post'>
                 <fieldset>
                     <label class="block clearfix">
                         <span class="block input-icon input-icon-right">
@@ -21,7 +21,7 @@
                             {else /}
                             {/if}
                         </span>
-                    </label>                                  
+                    </label>
 
                     <label class="block clearfix">
                         <span class="block input-icon input-icon-right">
@@ -54,7 +54,7 @@
                             {else /}<!--<i class="ace-icon fa fa-check red"></i> -->
                             {/if}
                         </span>
-                    </label>                    
+                    </label>
 
                     <label class="block">
                         <input type="checkbox" name='isagree' class="ace" />
@@ -63,16 +63,16 @@
                             <a href="#">User Agreement</a>
                         </span>
                     </label>
-                    
+
                     {if $message}
-                    <label class="block">                        
+                    <label class="block">
                         <span class="lbl">
-                            {$message}    
+                            {$message}
                         </span>
                     </label>
                     {/if}
                     <div class="space-6"></div>
-                    
+
                     <input type="hidden" name="__hash__" value="{$Request.token.__hash__}" />
                     <div class="clearfix">
                         <button type="reset" class="width-30 pull-left btn btn-sm">
@@ -91,12 +91,12 @@
         </div>
 
         <div class="toolbar center">
-            <a href="/admin/login/index" data-target="#login-box" class="back-to-login-link">
+            <a onclick="location.href='{:url('admin/login/index','','',true)}'" href="javascript:void(0)" class="back-to-login-link">
                 <i class="ace-icon fa fa-arrow-left"></i>
                 Back to login
             </a>
         </div>
     </div><!-- /.widget-body -->
 </div><!-- /.signup-box -->
-{include file="login/footer"}    
-                            
+{include file="login/footer"}
+

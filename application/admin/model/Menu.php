@@ -12,19 +12,22 @@ namespace application\admin\model;
 
 use think\Model;
 
-class Menu extends Model {
-
+class Menu extends Model
+{
     public $display = array('1' => '显示', '2' => '不显示');
 
-    public function getName() {
+    public function getName()
+    {
         $where = array();
         $where['c'] = request()->controller();
         $where['a'] = request()->action();
-        $res = $this->where($where)->field('id,name,parentid')->find();
-        return $res['name'];
+
+        //$res = $this->where($where)->field('id,name,parentid')->find();
+        //return $res['name'];
     }
 
-    public function getInfo() {
+    public function getInfo()
+    {
         $where = array();
         $where['c'] = request()->controller();
         $where['a'] = request()->action();
@@ -36,7 +39,8 @@ class Menu extends Model {
      * 获取前当标题
      * @return type
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         $info = $this->getInfo();
         $title = '';
         if ($info->parentid) {
@@ -53,8 +57,8 @@ class Menu extends Model {
      * 获取上级方法名
      * @return boolean
      */
-    public function getParentNname() {
-
+    public function getParentNname()
+    {
         $info = $this->getInfo();
         if ($info->parentid) {
             return $this->where('id', $info->parentid)->value('name');
@@ -66,7 +70,8 @@ class Menu extends Model {
     /**
      * 择选栏目
      */
-    public function selectMenu() {
+    public function selectMenu()
+    {
         $res = db('menu')
                 ->field('id,name,parentid')
                 ->order('listorder asc')
@@ -89,61 +94,12 @@ class Menu extends Model {
      * 所有菜单
      * @return type
      */
-    public function allMenu() {
+    public function allMenu()
+    {
         $res = db('menu')
                 ->field('id,name,parentid')
                 ->order('listorder asc')
                 ->select();
         return nodeTree($res);
     }
-
-    /**
-     * 我的菜单
-     * @param type $user_id
-     * @param type $display
-     * @return array
-     */
-    public function getMyMenu($user_id, $display = null) {
-        /*
-        $where = array();
-        if ($user_id != 1) {
-            $res = db('role_admin')
-                    ->alias('t1')
-                    ->field('t2.rules')
-                    ->join(config('database.prefix').'role t2', 't1.role_id=t2.id', 'left')
-                    ->where(['t1.admin_id' => $user_id])
-                    ->select();
-
-            if (!$res) {
-                return false;
-            }
-            $tmp = '';
-            foreach ($res as $k => $v) {
-                $tmp .=$v['rules'] . ',';
-            }
-
-            $menu_ids = trim($tmp, ',');
-
-            if(!$menu_ids){
-                return false;
-            }
-
-            $where['id'] = ['in', $menu_ids];
-        }
-
-        if ($display) {
-            $where['display'] = $display;
-        }
-
-        $res = db('menu')
-                    ->where($where)
-                    ->order('listorder desc')
-                    ->select();
-        */
-        $menu = config("menu.admin");
-
-        //找出权限表中该人物角色的权限
-        return $menu;
-    }
-
 }

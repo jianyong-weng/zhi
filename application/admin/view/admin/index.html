@@ -7,7 +7,8 @@
     </div>
     <div class="page-header">
         <h1>
-            {:model('menu')->getName()} {gt name="$Request.get.group_id" value="0"} [{:model('AdminGroup')->getGroupName($Request.get.group_id)}]{/gt}
+            {:action('Menu/getName','','widget')}
+            {gt name="$Request.get.group_id" value="0"} [{:model('AdminGroup')->getGroupName($Request.get.group_id)}]{/gt}
         </h1>
     </div><!-- /.page-header -->
 
@@ -51,27 +52,27 @@
                                 <td><a href="#">{$vo.username}</a></td>
                                 <td>{eq name="vo['id']" value="1"}超级管理员{else/}{$vo.groups}{/eq}</td>
                                 <td class="hidden-480">{:long2ip($vo.lastloginip)}</td>
-                                <td>{:date('Y-m-d H:i:s',$vo['lastlogintime'])}</td>
+                                <td>{$vo['lastlogintime']}</td>
 
                                 <td class="hidden-480">
                                     <span class="label label-sm label-warning">{$vo.realname}</span>
                                 </td>
-                                
+
                                 <td>
                                     {neq name="vo['id']" value="1"}
                                     <div class="hidden-sm hidden-xs btn-group">
 
-                                        <a href='{:url("info","id=$vo[id]")}' 
+                                        <a href='{:url("info","id=$vo[id]")}'
                                            <span class="btn btn-xs btn-info">
                                                 <i class="ace-icon fa fa-pencil bigger-120"></i>
                                             </span>
                                         </a>
-                                        <a href='javascript:void(0)' onclick="return alert_del('{:url(\"del\",\"id=$vo[id]\")}', '确认要删除『 id={$vo.id} 』这条记录吗？');" 
+                                        <a href='javascript:void(0)' onclick="return alert_del('{:url(\"del\",\"id=$vo[id]\")}', '确认要删除『 id={$vo.id} 』这条记录吗？');"
                                            <span class="btn btn-xs btn-danger">
                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                             </span>
                                         </a>
-                                       
+
                                     </div>
 
                                     <div class="hidden-md hidden-lg">
@@ -100,15 +101,15 @@
                                     </div>
                                     {/neq}
                                 </td>
-                                
+
                             </tr>
-                            {/volist}    
+                            {/volist}
                         </tbody>
                     </table>
-                   
+
                 </div><!-- /.span -->
             </div><!-- /.row -->
-             
+
             <!-- PAGE CONTENT ENDS -->
         </div><!-- /.col -->
     </div><!-- /.row -->

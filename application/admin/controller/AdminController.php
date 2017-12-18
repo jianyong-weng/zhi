@@ -1,40 +1,42 @@
 <?php
 
 /**
- *  后台继承类
- * @file   Admin.php  
- * @date   2016-8-23 19:45:21 
- * @author Zhenxun Du<5552123@qq.com>  
- * @version    SVN:$Id:$ 
+ * 系统页
+ * @date   2017-12-6 21:57
+ * @author WengJianYong<396342220@qq.com>
+ * @version 1.0
  */
 
 namespace application\admin\controller;
 
 use think\Loader;
 
-class AdminController extends CommonController {
-
-    public function index() {
-        
+class AdminController extends CommonController
+{
+    /**
+     * 管理设置/管理员设置
+     */
+    public function index()
+    {
         $where = array();
         if ($role_id = input('role_id')) {
             $where['t2.role_id'] = $role_id;
-            
         }
-        $lists = db('admin')->alias('t1')->field('t1.*')
+        //查找字段
+        $field = 't1.id,lastloginip,lastlogintime,realname';
+        $lists = db('admin')->alias('t1')->field($field)
                 ->where($where)
                 ->join(config('database.prefix').'role_admin t2', 't1.id=t2.admin_id', 'left')
                 ->group('t1.id')
                 ->order('t1.id desc')
                 ->select();
-     
+        //var_dump($lists);
         foreach ($lists as $k => $v) {
             //取出组名
             $lists[$k]['groups'] = '';
-            $groups = Loader::model('Admin')->getUserGroups($v['id']);
+            $groups = Loader::model('Admin')->getAdminRole($v['id']);
             if ($groups) {
                 $tmp = db('role')->field('name')->where('id', 'in', $groups)->select();
-
                 foreach ($tmp as $vv) {
                     $lists[$k]['groups'] .= $vv['name'] . ',';
                 }
@@ -50,7 +52,8 @@ class AdminController extends CommonController {
      * 查看
      */
 
-    public function info() {
+    public function info()
+    {
         $id = input('id');
         if ($id) {
             //当前用户信息
@@ -70,7 +73,8 @@ class AdminController extends CommonController {
      * 添加
      */
 
-    public function add() {
+    public function add()
+    {
         $data = input();
         $count = db('admin')->where('username', $data['username'])->count();
 
@@ -103,7 +107,8 @@ class AdminController extends CommonController {
      * 修改
      */
 
-    public function edit() {
+    public function edit()
+    {
         $data = input();
         db('role_id')->where(['admin_id' => $data['id']])->delete();
 
@@ -136,7 +141,8 @@ class AdminController extends CommonController {
      * 删除
      */
 
-    public function del() {
+    public function del()
+    {
         $id = input('id');
         $res = db('admin')->where(['id' => $id])->delete();
         if ($res) {
@@ -150,7 +156,8 @@ class AdminController extends CommonController {
     /**
      * 修改个人信息
      */
-    public function public_edit_info() {
+    public function public_edit_info()
+    {
         $data = input();
         if (isset($data['dosubmit'])) {
             if (!$data['password']) {
@@ -175,5 +182,4 @@ class AdminController extends CommonController {
             return $this->fetch();
         }
     }
-
 }

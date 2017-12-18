@@ -41,43 +41,46 @@ CREATE TABLE `zhi_admin` (
 -- ----------------------------
 -- Records of zhi_admin
 -- ----------------------------
-INSERT INTO `zhi_admin` VALUES ('1', '67848355efc1a9896a2e7b969fc49e2d', '123456', '0', '2017-12-07 21:30:34', '396342220@qq.com', '18259106776', 'zhi', '', '', '', '1', '2017-12-07 21:30:34');
+INSERT INTO `zhi_admin` VALUES (1, '1c84d5e68e6f8b9f12d54bddc7bbc5ca', 'mftIC', 2130706433, '2017-12-7 21:30:34', '396342220@qq.com', '18259106776', 'zhi', '', '', '', 1, '2017-12-17 21:10:15');
 
 -- ----------------------------
--- Table structure for `zhi_admin_group`
+-- Table structure for `zhi_role`
 -- ----------------------------
-DROP TABLE IF EXISTS `zhi_admin_group`;
-CREATE TABLE `zhi_admin_group` (
-  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `description` text,
-  `rules` varchar(500) NOT NULL DEFAULT '' COMMENT '用户组拥有的规则id，多个规则 , 隔开',
+DROP TABLE IF EXISTS `zhi_role`;
+CREATE TABLE `zhi_role` (
+  `id` smallint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `name` varchar(50) NOT NULL COMMENT '角色名称',
+  `description` text COMMENT '角色描述',
+  `rules` text NOT NULL COMMENT '用户组拥有的规则id，多个规则 , 隔开',
   `listorder` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `updatetime` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `listorder` (`listorder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of zhi_admin_group
+-- Records of zhi_role
 -- ----------------------------
-
+BEGIN;
+INSERT INTO `zhi_role` VALUES ('1', '普通管理员', '密码加密只是MD5', '', '0'), ('2', '工作人员', '仅拥有日志管理权限', '18,23,27', '0');
+COMMIT;
 -- ----------------------------
--- Table structure for `zhi_admin_group_access`
+-- Table structure for `zhi_role_admin`
 -- ----------------------------
-DROP TABLE IF EXISTS `zhi_admin_group_access`;
-CREATE TABLE `zhi_admin_group_access` (
-  `uid` int(10) unsigned NOT NULL COMMENT '用户id',
-  `group_id` mediumint(8) unsigned NOT NULL COMMENT '用户组id',
-  UNIQUE KEY `uid_group_id` (`uid`,`group_id`),
-  KEY `uid` (`uid`),
-  KEY `group_id` (`group_id`)
+DROP TABLE IF EXISTS `zhi_role_admin`;
+CREATE TABLE `zhi_role_admin` (
+  `admin_id` int(10) unsigned NOT NULL COMMENT '用户id(admin表id)',
+  `role_id` int(10) unsigned NOT NULL COMMENT '用户组id(role表ID)',
+  UNIQUE KEY `admin_role_id` (`admin_id`,`role_id`),
+  KEY `admin_id` (`admin_id`),
+  KEY `role_id` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of zhi_admin_group_access
 -- ----------------------------
-
+BEGIN;
+INSERT INTO `zhi_role_admin` VALUES ('2', '2'), ('3', '2');
+COMMIT;
 -- ----------------------------
 -- Table structure for `zhi_admin_log`
 -- ----------------------------

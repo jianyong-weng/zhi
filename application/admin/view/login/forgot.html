@@ -20,7 +20,7 @@
                                 <i class="ace-icon fa fa-envelope"></i>
                             </span>
                         </label>
-                        
+
                         <div class="clearfix">
                             <button type="button" onclick="mailform.submit()" class="width-35 pull-right btn btn-sm btn-danger">
                                 <i class="ace-icon fa fa-lightbulb-o"></i>
@@ -38,11 +38,11 @@
             </div><!-- /.widget-main -->
 
             <div class="toolbar center">
-                <a href="/admin/login/index" data-target="#login-box" class="back-to-login-link">
+                <a onclick="location.href='{:url('admin/login/index','','',true)}'" href="javascript:void(0)" class="back-to-login-link">
                     Back to login
                     <i class="ace-icon fa fa-arrow-right"></i>
                 </a>
             </div>
         </div><!-- /.widget-body -->
-    </div><!-- /.forgot-box -->                                
-{include file="login/footer"}   
+    </div><!-- /.forgot-box -->
+{include file="login/footer"}

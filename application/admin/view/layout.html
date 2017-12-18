@@ -68,7 +68,7 @@
 
                 <div class="navbar-buttons navbar-header pull-right" role="navigation">
                     <ul class="nav ace-nav">
-                   
+
 
                         <li class="light-blue dropdown-modal">
                             <a data-toggle="dropdown" href="#" class="dropdown-toggle">
@@ -118,9 +118,6 @@
                     }
                 </script>
 
-               
-
-
                 {:action('Menu/index','','widget')}
 
                 <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
@@ -133,13 +130,13 @@
                     {__CONTENT__}
                 </div>
             </div><!-- /.main-content -->
- 
+
             <div class="footer">
                 <div class="footer-inner">
                     <div class="footer-content">
                         <span class="bigger-120">
-                            <span class="blue bolder"><a href="" target="_blank">TP5Admin</a></span>
-                             &copy; 2016-2018
+                            <span class="blue bolder"><a href="" target="_blank">知者衡行</a></span>
+                             &copy; 2016-{:date("Y",time())}
                         </span>
 
                         &nbsp; &nbsp;
@@ -186,7 +183,7 @@
         <!--[if lte IE 8]>
           <script src="{$Think.PUBLIC_PATH}/static/ace1.4/assets/js/excanvas.min.js"></script>
         <![endif]-->
-    
+
 
         <!-- ace scripts -->
         <script src="{$Think.PUBLIC_PATH}/static/ace1.4/assets/js/ace-elements.min.js"></script>
@@ -196,13 +193,13 @@
         <link rel="stylesheet" href="{$Think.PUBLIC_PATH}/static/artDialog/dialog.css" />
         <script src="{$Think.PUBLIC_PATH}/static/artDialog/dialog.js"></script>
         <!--artDialog end-->
-        
-        
+
+
         <script>
                     var u = $(".active").parent('ul');
-                    
+
                     var uc = u.attr("class");//
-                   
+
                     if (uc == 'submenu') {
                        u.parent().attr("class", "open active");
                        if(u.parent().parent().attr('class')=='submenu'){
