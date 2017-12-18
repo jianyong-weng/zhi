@@ -1,9 +1,9 @@
-TP5Admin 
+TP5Admin
 ===================
 作者QQ:396342220(翁建勇)
 ===================
 
-TP5Admin使用ThinkPHP5.02核心版框架开发.
+zhi.cn使用ThinkPHP5.02核心版框架开发.
 其主要目的是为了提高开发效率.需要开发什么功能.后台直接添加菜单.程序里直接写控制器!
 > 首次使用导入数据库,后台账号admin,密码admin
  + 菜单管理
@@ -20,19 +20,19 @@ Nginx虚拟机配置如下：
 
 ~~~
 server {
-        listen       80; 
-        server_name  tp5admin.com;
-        root   "/Users/mac/wwwroot/work/tp5admin.com/public";
-        location / { 
+        listen       80;
+        server_name  zhi.cn;
+        root   "/Users/mac/wwwroot/work/zhi";
+        location / {
             index  index.html index.htm index.php;
-            autoindex  on; 
+            autoindex  on;
          if (!-e $request_filename) {
                         ###一级目录下
                         rewrite ^/(.*)$ /index.php/$1 last;
                         ###域名下的二级目录
                         #rewrite ^/目录名/(.*)$ /目录名/index.php/$1 last;
-                }   
-        }   
+                }
+        }
         location ~ \.php(.*)$ {
             fastcgi_pass   127.0.0.1:9000;
             fastcgi_index  index.php;
@@ -41,7 +41,7 @@ server {
             fastcgi_param  PATH_INFO  $fastcgi_path_info;
             fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
             include        fastcgi_params;
-        }   
+        }
 }
 ~~~
 
@@ -51,7 +51,7 @@ window环境 LAMP 配置
 
 
 1   在 C:\Windows\System32\drivers\etc\hosts文件底部添加
-      127.0.0.1 tp5admin.com
+      127.0.0.1 zhi.cn
 
 
 2  在httpd.conf 文件底部添加 tp5admin 网站配置
